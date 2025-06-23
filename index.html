@@ -1,55 +1,40 @@
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Image Generator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      background-color: #f2f2f2;
-      padding: 20px;
-    }
-    input, button {
-      padding: 10px;
-      font-size: 16px;
-      margin: 10px 0;
-      width: 100%;
-      max-width: 400px;
-    }
-    img {
-      margin-top: 20px;
-      max-width: 100%;
-      height: auto;
-      border: 1px solid #ccc;
-    }
-  </style>
-</head>
-<body>
-  <h1>AI Image Generator</h1>
-  <input type="text" id="prompt" placeholder="Enter your prompt..." />
-  <button onclick="generateImage()">Generate Image</button>
-  <img id="output" src="" alt="" />
-  <script>
-    async function generateImage() {
-      const prompt = document.getElementById('prompt').value;
-      const output = document.getElementById('output');
-      output.src = "";
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
-      });
-      const data = await response.json();
-      output.src = data.image_url;
-    }
-  </script>
-</body>
+<html>
+  <head>
+    <title>AI Image Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 40px;
+      }
+      input {
+        width: 90%;
+        padding: 10px;
+        font-size: 16px;
+      }
+      button {
+        padding: 12px 25px;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+      img {
+        margin-top: 20px;
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AI Image Generator</h1>
+    <input type="text" id="prompt" placeholder="Enter your prompt..." />
+    <br />
+    <button onclick="generateImage()">Generate Image</button>
+    <br />
+    <img id="result" />
+    <script src="generate.js"></script>
+  </body>
 </html>
+
