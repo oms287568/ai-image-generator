@@ -18,3 +18,4 @@ async function generateImage() {
   document.getElementById("result").src = imageUrl;
 }
 
+
