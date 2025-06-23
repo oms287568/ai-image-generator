@@ -9,6 +9,7 @@ export default async function handler(req, res) {
           "Content-Type": "application/json",
           "Authorization": "Bearer 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"
 
+
         },
         body: JSON.stringify({
           inputs: prompt
