@@ -1,30 +1,31 @@
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const prompt = req.body.prompt;
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Only POST method is allowed' });
+  }
 
-    const response = await fetch("https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2", {
-  method: "POST",
-  headers: {
-    "Authorization": `Bearer ${process.env.API_TOKEN}`,
+  const prompt = req.body.prompt;
 
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    inputs: prompt
-  })
-});
-
+  try {
+    const response = await fetch("https://api-inference.huggingface.co/models/prompthero/openjourney", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer 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"
+      },
+      body: JSON.stringify({ inputs: prompt }),
+    });
 
     if (!response.ok) {
-      throw new Error("HuggingFace API Error");
+      throw new Error("HuggingFace API request failed");
     }
 
     const buffer = await response.arrayBuffer();
     const base64 = Buffer.from(buffer).toString("base64");
 
-    res.status(200).json({ image: base64 });
-  } else {
-    res.status(405).json({ error: "Method not allowed" });
+    res.status(200).json({ image: `data:image/png;base64,${base64}` });
+  } catch (error) {
+    console.error("Image generation error:", error.message);
+    res.status(500).json({ error: "Image generation failed" });
   }
 }
 
