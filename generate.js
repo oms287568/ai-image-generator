@@ -2,18 +2,17 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const prompt = req.body.prompt;
 
-    const response = await fetch("https://api-inference.huggingface.co/models/prompthero/openjourney", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `const HF_TOKEN = process.env.HUGGINGFACE_API_KEY;  // ✅
-        
+    const response = await fetch("https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2", {
+  method: "POST",
+  headers: {
+    "Authorization": `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    inputs: prompt
+  })
+});
 
-      },
-      body: JSON.stringify({
-        inputs: prompt
-      }),
-    });
 
     if (!response.ok) {
       throw new Error("HuggingFace API Error");
@@ -27,6 +26,7 @@ export default async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
   }
 }
+
 
 
 
